@@ -13,3 +13,6 @@ env:
 
 script:
   - GOARCH=$BUILD_GOARCH GOOS=$BUILD_GOOS go build ./...
+  
+  # only test on linux
+  - if [ $BUILD_GOOS == "linux" ]; then GOARCH=$BUILD_GOARCH GOOS=$BUILD_GOOS go test ${gobuild_args} ./...; fi
