@@ -1,18 +1,16 @@
 language: go
 go:
-- 1.14.x
+  - 1.14.x
 env:
   global:
-  - BUILD_GOARCH=amd64
+    - BUILD_GOARCH=amd64
   matrix:
-  - BUILD_GOOS=linux
-  - BUILD_GOOS=darwin
-  - BUILD_GOOS=windows
+    - BUILD_GOOS=linux
+    - BUILD_GOOS=darwin
+    - BUILD_GOOS=windows
 script:
-- GOARCH=$BUILD_GOARCH GOOS=$BUILD_GOOS go build -o "ansible-lint-junit-$BUILD_GOOS-$BUILD_GOARCH"
-  ./...
-- if [ $BUILD_GOOS == "linux" ]; then GOARCH=$BUILD_GOARCH GOOS=$BUILD_GOOS go test
-  ${gobuild_args} ./...; fi
+  - GOARCH=$BUILD_GOARCH GOOS=$BUILD_GOOS go build -o "ansible-lint-junit-$BUILD_GOOS-$BUILD_GOARCH" ./...
+  - if [ $BUILD_GOOS == "linux" ]; then GOARCH=$BUILD_GOARCH GOOS=$BUILD_GOOS go test ${gobuild_args} ./...; fi
 deploy:
   provider: releases
   api_key:
