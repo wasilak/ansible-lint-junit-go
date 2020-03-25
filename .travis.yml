@@ -13,7 +13,7 @@ script:
   - go test -coverprofile c.out ${gobuild_args} ./...
   - cat c.out
 after_script:
-  - "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
+  - "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT -p /home/travis/gopath/src/"
 deploy:
   provider: releases
   api_key:
