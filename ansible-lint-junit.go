@@ -16,6 +16,7 @@ import (
 // AppVersion number
 const AppVersion = "0.13"
 
+// Failure struct
 type Failure struct {
 	File    string `xml:"file,attr"`
 	Line    string `xml:"line,attr"`
@@ -24,11 +25,13 @@ type Failure struct {
 	Content string `xml:",chardata"`
 }
 
+// TestCase struct
 type TestCase struct {
 	Name    string    `xml:"name,attr"`
 	Failure []Failure `xml:"failure"`
 }
 
+// TestSuite struct
 type TestSuite struct {
 	TestCase []TestCase `xml:"testcase"`
 	Errors   int        `xml:"errors,attr"`
@@ -37,6 +40,7 @@ type TestSuite struct {
 	Time     int        `xml:"time,attr"`
 }
 
+// TestSuites struct
 type TestSuites struct {
 	XMLName   xml.Name    `xml:"testsuites"`
 	TestSuite []TestSuite `xml:"testsuite"`
