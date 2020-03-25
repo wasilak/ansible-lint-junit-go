@@ -1,26 +1,23 @@
 language: go
-
 go:
-  - 1.14.x
-
+- 1.14.x
 env:
   global:
-    - BUILD_GOARCH=amd64
+  - BUILD_GOARCH=amd64
   matrix:
-    - BUILD_GOOS=linux
-    - BUILD_GOOS=darwin
-    - BUILD_GOOS=windows
-
+  - BUILD_GOOS=linux
+  - BUILD_GOOS=darwin
+  - BUILD_GOOS=windows
 script:
-  - GOARCH=$BUILD_GOARCH GOOS=$BUILD_GOOS go build -o "ansible-lint-junit-$BUILD_GOOS-$BUILD_GOARCH" ./...
-  
-  # only test on linux
-  - if [ $BUILD_GOOS == "linux" ]; then GOARCH=$BUILD_GOARCH GOOS=$BUILD_GOOS go test ${gobuild_args} ./...; fi
-
+- GOARCH=$BUILD_GOARCH GOOS=$BUILD_GOOS go build -o "ansible-lint-junit-$BUILD_GOOS-$BUILD_GOARCH"
+  ./...
+- if [ $BUILD_GOOS == "linux" ]; then GOARCH=$BUILD_GOARCH GOOS=$BUILD_GOOS go test
+  ${gobuild_args} ./...; fi
 deploy:
   provider: releases
-  api_key: "GITHUB OAUTH TOKEN"
-  file: "ansible-lint-junit-$BUILD_GOOS-$BUILD_GOARCH"
+  api_key:
+    secure: FYMK8ua2D/FSyYJb0k9rLF9MtltSuixsB2enEEyds87/VaEBmN7ewZiBFqGVxbQTxfNdHsTpmxy1pdzXTJu+m9xDo6czjffpuIMWe7BvvQD4D3+o6Ah/4E1iThqqIl8xZ5yx9fLYkJSG5rwXXyNpR87Eh0CaW0MULdUZTtciqARZA3XR5PeUi3Pvrb2IhEq4hQ8wAteTi5x/nm2zWZ1yPBQlssrpIovN8Yrv/mKAocHgSISsk3vFtokgHwZs0fXAnXEzNRwXZyjzIS60nde1M62H+MD1kQVjydlisK3lTEKtg6pZ+S/M+27iziiQeCXq6/rJE59ZRwU9+odABMRRO+mcvZgc3HY1wSI4YcU9G+iuJxrkff3JeJBW97xWT0HPNX6PdMY90uODZ1CyCCbG7TeUm0cctrLOFHgVvCitnnkqIYifZJfcRVIs6MFThzwM3SGHd3i4YpYu/gGBrXaXyeOOyb4VhNcgpIBdzOD2SCqm1/qY9+QAxetUwUsjJ7vQoPBYrfRnt9I17IZTawO99XJUu3fGPT2JTbEuAveQ3Krwzk4B/qpYwUdX4LNaYftBzhp+X9sxzjr20iAgcJa0kwGMetGa+o1Ew6Aq2OT0f8viPTHyaEzRBN5GRaEQwIohOqBsvTJQkbMtfryyhFVHyH83ShN39yqw+qX9brcSr5E=
+  file: ansible-lint-junit-$BUILD_GOOS-$BUILD_GOARCH
   skip_cleanup: true
   overwrite: true
   on:
