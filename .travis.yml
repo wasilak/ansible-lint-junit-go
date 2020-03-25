@@ -12,7 +12,16 @@ env:
     - BUILD_GOOS=windows
 
 script:
-  - GOARCH=$BUILD_GOARCH GOOS=$BUILD_GOOS go build ./...
+  - GOARCH=$BUILD_GOARCH GOOS=$BUILD_GOOS go build -o "ansible-lint-junit-$BUILD_GOOS-$BUILD_GOARCH" ./...
   
   # only test on linux
   - if [ $BUILD_GOOS == "linux" ]; then GOARCH=$BUILD_GOARCH GOOS=$BUILD_GOOS go test ${gobuild_args} ./...; fi
+
+deploy:
+  provider: releases
+  api_key: "GITHUB OAUTH TOKEN"
+  file: "ansible-lint-junit-$BUILD_GOOS-$BUILD_GOARCH"
+  skip_cleanup: true
+  overwrite: true
+  on:
+    tags: true
