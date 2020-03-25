@@ -3,27 +3,22 @@ go:
   - 1.14.x
 env:
   global:
-    - BUILD_GOARCH=amd64
-    - CC_TEST_REPORTER_ID=62231d51ed81e2ef670aff31f19a6706d2d580536287708e604c22515d65f55b
-  matrix:
-    - BUILD_GOOS=linux
-    - BUILD_GOOS=darwin
-    - BUILD_GOOS=windows
+    - secure: ZkXULu7D0WlqpR9H/Uh4W4vZH38R3tA1lpTgfZTfiN+DdIJFljYI5mxjgYOttrfUTMdJJClRyx2zne1T7P6EhkUCEd/vjxNQszcho21YZ78JmbBOpVtKKWxseav0Yq1TJ3Y0YH2P7dv0HtgTnCC2CKsruy8fuZeK4jhx7m/YZ6lvtDmQ+L4IS59T6ZegcReqksRnV+mzQQVRswVzWekYnc6cB7xR3Sb+PmhdeJB8fWj4TOtwcF3xBw1kcPKmtkpKdDaVqnjLyMaQ60dQxyj114jJBAFJ19A7JM3+rI8WkhNygaMq5Q4KJsa0jNRICGDVAWkeLBOD2z7cUC+sXim7MuI36Wm+Ava0lY0AnjZttR1u2kKcuKUQ9NwaT+dvpH63naPj0OvEDuCVnrY8nxF6indF7urmzWrmz1RwfYVeFQIQsght/wue8ISGqLRX9qZnuopi9antAEGGNWhLLeUHZQMH/kG3JYv+QzRhxQygHyVaLzV6dcqh8+dmlPBjRh3II/HZBbERfxsa+z2oEPXXLC+ovUE4hHRjufzoxo8qAyz8tiU/3zpKViWpgciqe2T72NkAfs7mZ2hw1yGB3EJLla4jRQ/zzCEOWzXry7RrJJLdt4HGkMSthM8dwB1ufJOIEdmJuzAIeYxLfFWtSgXxjiEmsTHM4+i4IGf138LS2q8=
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
+  - "./cc-test-reporter before-build"
 script:
-  - GOARCH=$BUILD_GOARCH GOOS=$BUILD_GOOS go build -o "ansible-lint-junit-$BUILD_GOOS-$BUILD_GOARCH" ./...
-  - if [ $BUILD_GOOS == "linux" ]; then go test -coverprofile c.out ${gobuild_args} ./...; fi
-  - ls -lha
+  - GOARCH=amd64 GOOS=linux go build -o "ansible-lint-junit" ./...
+  - go test -coverprofile c.out ${gobuild_args} ./...
+  - cat c.out
 after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - "./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT"
 deploy:
   provider: releases
   api_key:
     secure: FYMK8ua2D/FSyYJb0k9rLF9MtltSuixsB2enEEyds87/VaEBmN7ewZiBFqGVxbQTxfNdHsTpmxy1pdzXTJu+m9xDo6czjffpuIMWe7BvvQD4D3+o6Ah/4E1iThqqIl8xZ5yx9fLYkJSG5rwXXyNpR87Eh0CaW0MULdUZTtciqARZA3XR5PeUi3Pvrb2IhEq4hQ8wAteTi5x/nm2zWZ1yPBQlssrpIovN8Yrv/mKAocHgSISsk3vFtokgHwZs0fXAnXEzNRwXZyjzIS60nde1M62H+MD1kQVjydlisK3lTEKtg6pZ+S/M+27iziiQeCXq6/rJE59ZRwU9+odABMRRO+mcvZgc3HY1wSI4YcU9G+iuJxrkff3JeJBW97xWT0HPNX6PdMY90uODZ1CyCCbG7TeUm0cctrLOFHgVvCitnnkqIYifZJfcRVIs6MFThzwM3SGHd3i4YpYu/gGBrXaXyeOOyb4VhNcgpIBdzOD2SCqm1/qY9+QAxetUwUsjJ7vQoPBYrfRnt9I17IZTawO99XJUu3fGPT2JTbEuAveQ3Krwzk4B/qpYwUdX4LNaYftBzhp+X9sxzjr20iAgcJa0kwGMetGa+o1Ew6Aq2OT0f8viPTHyaEzRBN5GRaEQwIohOqBsvTJQkbMtfryyhFVHyH83ShN39yqw+qX9brcSr5E=
-  file: ansible-lint-junit-$BUILD_GOOS-$BUILD_GOARCH
+  file: ansible-lint-junit
   skip_cleanup: true
   overwrite: true
   on:

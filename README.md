@@ -3,7 +3,6 @@
 
 ### Installation
 - download precompiled binary from [releases](https://github.com/wasilak/ansible-lint-junit-go/releases) page
-- rename to `ansible-lint-junit`, i.e. `mv ansible-lint-junit-linux-amd64 ansible-lint-junit`
 - make it executable with: `chmod +x ansible-lint-junit`
 
 ### Usage:
