@@ -4,13 +4,20 @@ go:
 env:
   global:
     - BUILD_GOARCH=amd64
+    - CC_TEST_REPORTER_ID=62231d51ed81e2ef670aff31f19a6706d2d580536287708e604c22515d65f55b
   matrix:
     - BUILD_GOOS=linux
     - BUILD_GOOS=darwin
     - BUILD_GOOS=windows
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 script:
   - GOARCH=$BUILD_GOARCH GOOS=$BUILD_GOOS go build -o "ansible-lint-junit-$BUILD_GOOS-$BUILD_GOARCH" ./...
-  - if [ $BUILD_GOOS == "linux" ]; then GOARCH=$BUILD_GOARCH GOOS=$BUILD_GOOS go test ${gobuild_args} ./...; fi
+  - if [ $BUILD_GOOS == "linux" ]; then GOARCH=$BUILD_GOARCH GOOS=$BUILD_GOOS go test -coverprofile c.out ${gobuild_args} ./...; fi
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 deploy:
   provider: releases
   api_key:

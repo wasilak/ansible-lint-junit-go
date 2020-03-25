@@ -42,7 +42,7 @@ type TestSuites struct {
 	TestSuite []TestSuite `xml:"testsuite"`
 }
 
-func Version() string {
+func appVersion() string {
 	return AppVersion
 }
 
@@ -165,7 +165,7 @@ func main() {
 	flag.Parse()
 
 	if *version {
-		fmt.Println(Version())
+		fmt.Println(appVersion())
 		os.Exit(0)
 	}
 
