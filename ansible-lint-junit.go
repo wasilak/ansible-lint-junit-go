@@ -11,6 +11,7 @@ import (
 	"os"
 	"regexp"
 	"strings"
+	"sync"
 )
 
 // AppVersion number
@@ -137,7 +138,8 @@ func createXML(input string) *TestSuites {
 	return testSuites
 }
 
-func consoleLog(xmlContent *TestSuites) {
+func consoleLog(xmlContent *TestSuites, wg *sync.WaitGroup) {
+	defer wg.Done()
 	enc := xml.NewEncoder(os.Stdout)
 	enc.Indent("", "    ")
 	if err := enc.Encode(xmlContent); err != nil {
@@ -145,7 +147,8 @@ func consoleLog(xmlContent *TestSuites) {
 	}
 }
 
-func writeToFile(xmlContent *TestSuites, filename string) {
+func writeToFile(xmlContent *TestSuites, filename string, wg *sync.WaitGroup) {
+	defer wg.Done()
 	file, _ := os.Create(filename)
 
 	xmlWriter := io.Writer(file)
@@ -173,13 +176,23 @@ func main() {
 		os.Exit(0)
 	}
 
-	input := getInput()
+	var wg sync.WaitGroup
 
-	xmlContent := createXML(input)
+	input := make(chan string)
+
+	go func() {
+		input <- getInput()
+	}()
+
+	xmlContent := createXML(<-input)
 
 	if *verbose {
-		consoleLog(xmlContent)
+		wg.Add(1)
+		go consoleLog(xmlContent, &wg)
 	}
 
-	writeToFile(xmlContent, *output)
+	wg.Add(1)
+	go writeToFile(xmlContent, *output, &wg)
+
+	wg.Wait()
 }
