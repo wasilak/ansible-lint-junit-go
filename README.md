@@ -1,4 +1,4 @@
-[ansible-lint](https://github.com/willthames/ansible-lint) to JUnit converter [![Build Status](https://travis-ci.org/wasilak/ansible-lint-junit-go.svg?branch=master)](https://travis-ci.org/wasilak/ansible-lint-junit-go)
+[ansible-lint](https://github.com/willthames/ansible-lint) to JUnit converter [![Build Status](https://travis-ci.org/wasilak/ansible-lint-junit-go.svg?branch=master)](https://travis-ci.org/wasilak/ansible-lint-junit-go) [![Maintainability](https://api.codeclimate.com/v1/badges/c009223d118fa63bc2c0/maintainability)](https://codeclimate.com/github/wasilak/ansible-lint-junit-go/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/c009223d118fa63bc2c0/test_coverage)](https://codeclimate.com/github/wasilak/ansible-lint-junit-go/test_coverage) [![Total alerts](https://img.shields.io/lgtm/alerts/g/wasilak/ansible-lint-junit-go.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/wasilak/ansible-lint-junit-go/alerts/) [![Language grade: Go](https://img.shields.io/lgtm/grade/go/g/wasilak/ansible-lint-junit-go.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/wasilak/ansible-lint-junit-go/context:go)
 ---
 
 ### Installation
