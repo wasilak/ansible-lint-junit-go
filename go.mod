@@ -1,3 +1,3 @@
 module github.com/wasilak/ansible-lint-junit-go
 
-go 1.14
+go 1.23
